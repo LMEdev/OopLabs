@@ -1,6 +1,6 @@
 package ru.leonid.labs.lab_1.task_4;
 
-import ru.leonid.labs.lab_1.task_4.myfirstpackage.*;
+import myfirstpackage.*;
 
 
 class MyFirstProgram {
