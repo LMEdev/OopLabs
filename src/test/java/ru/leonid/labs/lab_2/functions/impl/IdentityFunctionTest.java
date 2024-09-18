@@ -1,6 +1,9 @@
 package ru.leonid.labs.lab_2.functions;
 
 import org.junit.Test;
+import ru.leonid.labs.lab_2.functions.api.MathFunction;
+import ru.leonid.labs.lab_2.functions.impl.IdentityFunction;
+
 import static org.junit.Assert.assertEquals;
 
 public class IdentityFunctionTest {
