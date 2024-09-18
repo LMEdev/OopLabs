@@ -1,4 +1,4 @@
-package myfirstpackage;
+package ru.leonid.labs.lab_1.task_4.myfirstpackage;
 
 public class MyFirstPackage {
     private int a;

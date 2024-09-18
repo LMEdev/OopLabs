@@ -1,7 +1,6 @@
 package ru.leonid.labs.lab_1.task_4;
 
-import myfirstpackage.*;
-
+import ru.leonid.labs.lab_1.task_4.myfirstpackage.MyFirstPackage;
 
 class MyFirstProgram {
     public static void main(String[] s) {
