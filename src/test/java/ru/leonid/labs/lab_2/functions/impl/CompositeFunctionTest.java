@@ -1,11 +1,9 @@
-package ru.leonid.labs.lab_2.functions;
+package ru.leonid.labs.lab_2.functions.impl;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import ru.leonid.labs.lab_2.functions.api.MathFunction;
-import ru.leonid.labs.lab_2.functions.impl.CompositeFunction;
-import ru.leonid.labs.lab_2.functions.impl.IdentityFunction;
-import ru.leonid.labs.lab_2.functions.impl.SqrFunction;
+
 
 public class CompositeFunctionTest {
 
