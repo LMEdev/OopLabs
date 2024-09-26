@@ -16,9 +16,8 @@ public class SimpleIterationSolver {
         double x = initialGuess;
         for (int i = 0; i < maxIterations; i++) {
             double xNext = equation.apply(x);
-            if (Math.abs(xNext - x) < EPSILON) {
+            if (Math.abs(xNext - x) < EPSILON)
                 return xNext;
-            }
             x = xNext;
         }
         throw new RuntimeException("Maximum number of iterations reached without convergence.");

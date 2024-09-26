@@ -38,7 +38,7 @@ public class EulerMethodSolverTest {
         DifferentialEquation equation = new DifferentialEquation(indices);
 
         double initialValue = 0.0;
-        double stepSize = 0.1;  // Больше шаг
+        double stepSize = 0.1;  // больше шаг
         int steps = 10;
 
         EulerMethodSolver solver = new EulerMethodSolver(equation, stepSize, steps);

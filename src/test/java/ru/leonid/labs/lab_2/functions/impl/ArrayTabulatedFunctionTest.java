@@ -41,7 +41,7 @@ public class ArrayTabulatedFunctionTest {
         MathFunction source = x -> x * 2;
         ArrayTabulatedFunction func = new ArrayTabulatedFunction(source, 1.0, 3.0, 3);
 
-        // Экстраполяция влево от самой левой точки (1.0)
+        //экстраполяция влево от самой левой точки (1.0)
         // Ожидаемое значение: 2.0 + (0.0 - 1.0) * (4.0 - 2.0) / (2.0 - 1.0) = 2.0 - 2.0 = 0.0
         assertEquals(0.0, func.extrapolateLeft(0.0), 0.001);
     }

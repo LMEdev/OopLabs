@@ -12,12 +12,12 @@ public class SimpleIterationSolverTest {
 
     @Test
     public void testSolveConvergence() {
-        List<Integer> indices = List.of(1, 2); // Пример индексов
+        List<Integer> indices = List.of(1, 2); // пример индексов
         DifferentialEquation equation = new DifferentialEquation(indices);
         SimpleIterationSolver solver = new SimpleIterationSolver(equation, 100);
 
-        double result = solver.solve(0.0); // Начальное приближение
-        double expected = 0.0; // Ожидаемое значение, измените по необходимости
+        double result = solver.solve(0.0); // начальное приближение
+        double expected = 0.0; // Ожидаемое значение
         assertEquals(expected, result, 1E-5); // Проверка с учетом погрешности
     }
 
@@ -25,11 +25,11 @@ public class SimpleIterationSolverTest {
     public void testSolveNoConvergence() {
         List<Integer> indices = List.of(1, 2); // Пример индексов
         DifferentialEquation equation = new DifferentialEquation(indices);
-        SimpleIterationSolver solver = new SimpleIterationSolver(equation, 2); // Установите малое maxIterations
+        SimpleIterationSolver solver = new SimpleIterationSolver(equation, 2);
 
-        // Проверка, что выбрасывается исключение при отсутствии сходимости
+        //Проверка, что выбрасывается исключение при отсутствии сходимости
         RuntimeException thrown = assertThrows(RuntimeException.class, () -> {
-            solver.solve(100.0); // Начальное приближение, которое не будет сходиться
+            solver.solve(100.0); //Начальное приближение, которое не будет сходиться
         });
 
         assertEquals("Maximum number of iterations reached without convergence.", thrown.getMessage());
