@@ -1,9 +1,9 @@
 package ru.leonid.labs.lab_2.functions.api;
 
 public abstract class AbstractTabulatedFunction implements TabulatedFunction {
-    private final int count;
+    protected int count;
 
-    public AbstractTabulatedFunction(int count) {
+    protected AbstractTabulatedFunction(int count) {
         this.count = count;
     }
 
@@ -26,6 +26,12 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
                 int floorIndex = floorIndexOfX(x);
                 return interpolate(x, floorIndex);
             }
+        }
+    }
+
+    protected void checkIndex(int index) {
+        if (index < 0 || index >= getCount()) {
+            throw new IndexOutOfBoundsException("Index out of bounds: " + index);
         }
     }
 

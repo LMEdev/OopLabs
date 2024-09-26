@@ -1,8 +1,9 @@
 package ru.leonid.labs.lab_2.functions.impl;
 
-import ru.leonid.labs.lab_2.functions.api.MathFunction;
-import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+import ru.leonid.labs.lab_2.functions.api.MathFunction;
+
+import static org.junit.Assert.assertEquals;
 
 public class LinkedListTabulatedFunctionTest {
 
@@ -122,5 +123,47 @@ public class LinkedListTabulatedFunctionTest {
 
         assertEquals(6.0, func1.apply(3.0), 0.001);
         assertEquals(8.0, func2.apply(4.0), 0.001);
+    }
+
+    @Test
+    public void testInsertAndReplace() {
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(new double[]{1.0, 2.0}, new double[]{2.0, 4.0});
+
+        //1. Замена существующего значения
+        function.insert(1.0, 3.0);
+        assertEquals(2, function.getCount());
+        assertEquals(3.0, function.getY(0), 0.001);
+
+        //2. Вставка в начало
+        function.insert(0.0, 1.0);
+        assertEquals(3, function.getCount());
+        assertEquals(1.0, function.getY(0), 0.001);
+
+        //3. Вставка в середину
+        function.insert(1.5, 2.5);
+        assertEquals(4, function.getCount());
+        assertEquals(2.5, function.getY(2), 0.001);
+
+        //4. Вставка в конец
+        function.insert(3.0, 6.0);
+        assertEquals(5, function.getCount());
+        assertEquals(6.0, function.getY(4), 0.001);
+    }
+
+    @Test
+    public void testRemove() {
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(new double[]{1.0, 2.0, 3.0}, new double[]{2.0, 4.0, 6.0});
+
+        function.remove(1);
+        assertEquals(2, function.getCount());
+        assertEquals(1.0, function.getX(0), 0.001);
+        assertEquals(6.0, function.getY(1), 0.001);
+
+        function.remove(0);
+        assertEquals(1, function.getCount());
+        assertEquals(6.0, function.getY(0), 0.001);
+
+        function.remove(0);
+        assertEquals(0, function.getCount());
     }
 }

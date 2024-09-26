@@ -1,13 +1,16 @@
 package ru.leonid.labs.lab_2.functions.impl;
 
 import ru.leonid.labs.lab_2.functions.api.AbstractTabulatedFunction;
+import ru.leonid.labs.lab_2.functions.api.Insertable;
 import ru.leonid.labs.lab_2.functions.api.MathFunction;
+import ru.leonid.labs.lab_2.functions.api.Removable;
 
 import java.util.Arrays;
 
-public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
-    private final double[] xValues;
-    private final double[] yValues;
+public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Insertable, Removable {
+    private double[] xValues;
+    private double[] yValues;
+    private int capacity;
 
     public ArrayTabulatedFunction(double[] xValues, double[] yValues) {
         super(xValues.length);
@@ -26,8 +29,10 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
             }
         }
 
-        this.xValues = Arrays.copyOf(xValues, xValues.length);
-        this.yValues = Arrays.copyOf(yValues, yValues.length);
+        this.count = xValues.length;
+        this.capacity = count+10; //резервируем доп ячейки
+        this.xValues = Arrays.copyOf(xValues, capacity);
+        this.yValues = Arrays.copyOf(yValues, capacity);
     }
 
     public ArrayTabulatedFunction(MathFunction source, double xFrom, double xTo, int count) {
@@ -43,8 +48,10 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
             xTo = temp;
         }
 
-        this.xValues = new double[count];
-        this.yValues = new double[count];
+        this.count = count;
+        this.capacity = count + 10;
+        this.xValues = new double[capacity];
+        this.yValues = new double[capacity];
 
         double step = (xTo - xFrom) / (count - 1);
 
@@ -56,7 +63,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
 
     @Override
     public int getCount() {
-        return xValues.length;
+        return count;
     }
 
     @Override
@@ -79,7 +86,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
 
     @Override
     public int indexOfX(double x) {
-        for (int i = 0; i < xValues.length; i++) {
+        for (int i = 0; i < getCount(); i++) {
             if (xValues[i] == x) {
                 return i;
             }
@@ -99,13 +106,20 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
 
     @Override
     public double leftBound() {
-        return xValues[0];
+        if (count > 0) {
+            return xValues[0];
+        }
+        throw new IllegalStateException("No values in the function");
     }
 
     @Override
     public double rightBound() {
-        return xValues[xValues.length - 1];
+        if (count > 0) {
+            return xValues[count - 1];
+        }
+        throw new IllegalStateException("No values in the function");
     }
+
 
     @Override
     protected int floorIndexOfX(double x) {
@@ -137,9 +151,62 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
         return leftY + (x - leftX) * (rightY - leftY) / (rightX - leftX);
     }
 
-    private void checkIndex(int index) {
-        if (index < 0 || index >= getCount()) {
-            throw new IndexOutOfBoundsException("Index out of bounds: " + index);
+    @Override
+    public void insert(double x, double y) {
+        int index = indexOfX(x);
+
+        if (index != -1) { // если x уже в массиве, то обновляем
+            yValues[index] = y;
+            return;
+        }
+
+        if (x < leftBound()) { // если левее, вставляем в начало
+            insertAt(0, x, y);
+            return;
+        }
+
+        if (x > rightBound()) { // если правее, вставляем в конец
+            insertAt(count, x, y);
+            return;
+        }
+
+        for (int i = 0; i < count - 1; ++i) {
+            if (xValues[i] < x && xValues[i + 1] > x) {
+                insertAt(i + 1, x, y); // вставляем между этими двумя значениями
+                return;
+            }
         }
     }
+
+
+    private void insertAt(int index, double x, double y){
+        if (count >= capacity){
+            capacity *= 2;
+            xValues = Arrays.copyOf(xValues, capacity);
+            yValues = Arrays.copyOf(yValues, capacity);
+        }
+
+        System.arraycopy(xValues, index, xValues, index + 1, count - index);
+        System.arraycopy(yValues, index, yValues, index + 1, count - index);
+
+        xValues[index] = x;
+        yValues[index] = y;
+
+        count++;
+    }
+
+    @Override
+    public void remove(int index){
+        checkIndex(index);
+
+        for (int i = index; i < count - 1; i++) { //сдвигаем все влево начиная с index'a
+            xValues[i] = xValues[i + 1];
+            yValues[i] = yValues[i + 1];
+        }
+
+        count--;
+        xValues[count] = 0;
+        yValues[count] = 0;
+    }
+
 }

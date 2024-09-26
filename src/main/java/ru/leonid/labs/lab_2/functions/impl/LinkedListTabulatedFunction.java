@@ -1,17 +1,16 @@
 package ru.leonid.labs.lab_2.functions.impl;
 
 import ru.leonid.labs.lab_2.functions.api.AbstractTabulatedFunction;
+import ru.leonid.labs.lab_2.functions.api.Insertable;
 import ru.leonid.labs.lab_2.functions.api.MathFunction;
+import ru.leonid.labs.lab_2.functions.api.Removable;
 
-public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
-    private int count;
-    private Node head;
-
+public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Insertable, Removable {
     private static class Node {
-        private double x;
-        private double y;
-        private Node next;
-        private Node prev;
+        public Node prev;
+        public Node next;
+        public double x;
+        public double y;
 
         public Node(double x, double y) {
             this.x = x;
@@ -19,80 +18,26 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
         }
     }
 
-    public LinkedListTabulatedFunction(double[] xValues, double[] yValues) {
-        super(xValues.length);
-        if (xValues.length != yValues.length) {
-            throw new IllegalArgumentException("xValues.length != yValues.length");
-        }
-        if (xValues.length < 2) {
-            throw new IllegalArgumentException("Array length must be at least 2");
-        }
+    private Node head;
 
-        head = new Node(xValues[0], yValues[0]);
-        Node current = head;
-        for (int i = 1; i < xValues.length; i++) {
-            if (xValues[i] <= xValues[i - 1]) {
-                throw new IllegalArgumentException("xValues are not sorted in increasing order");
-            }
-            Node newNode = new Node(xValues[i], yValues[i]);
-            current.next = newNode;
-            newNode.prev = current;
-            current = newNode;
-        }
-        current.next = head;
-        head.prev = current;
-
-        count = xValues.length;
-    }
-
-    public LinkedListTabulatedFunction(MathFunction source, double xFrom, double xTo, int count) {
-        super(count);
-        if (count < 2) {
-            throw new IllegalArgumentException("Count must be at least 2");
-        }
-        if (xFrom > xTo) {
-            double temp = xFrom;
-            xFrom = xTo;
-            xTo = temp;
-        }
-
-        double step = (xTo - xFrom) / (count - 1);
-        head = new Node(xFrom, source.apply(xFrom));
-        Node current = head;
-
-        for (int i = 1; i < count; i++) {
-            double x = xFrom + i * step;
-            Node newNode = new Node(x, source.apply(x));
-            current.next = newNode;
-            newNode.prev = current;
-            current = newNode;
-        }
-        current.next = head;
-        head.prev = current;
-
-        this.count = count;
-    }
-
-    private void addNode(double x, double y) {
-        Node newNode = new Node(x, y);
-        if (head == null) {
+    private void addNode(double x, double y){
+        Node newNode = new Node(x,y);
+        if (head == null){ //добавляем в начало
             head = newNode;
-            head.next = head;
             head.prev = head;
-        } else {
+            head.next = head;
+        } else { //добавляем в конец
             Node last = head.prev;
             last.next = newNode;
             newNode.prev = last;
             newNode.next = head;
             head.prev = newNode;
         }
-        count++;
     }
 
     private Node getNode(int index) {
-        if (index < 0 || index >= count) {
-            throw new IndexOutOfBoundsException("index out of bounds " + index);
-        }
+        checkIndex(index);
+
         Node current;
         if (index < count / 2) {
             current = head;
@@ -105,7 +50,43 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
                 current = current.prev;
             }
         }
+
         return current;
+    }
+
+    public LinkedListTabulatedFunction(double[] xValues, double[] yValues) {
+        super(xValues.length);
+        if (xValues.length != yValues.length) {
+            throw new IllegalArgumentException("xValues.length != yValues.length");
+        }
+        if (xValues.length < 2) {
+            throw new IllegalArgumentException("Array length must be at least 2");
+        }
+
+        for (int i = 0; i < xValues.length; i++) {
+            addNode(xValues[i], yValues[i]);
+        }
+    }
+
+    public LinkedListTabulatedFunction(MathFunction source, double xFrom, double xTo, int count) {
+        super(count);
+
+        if (count < 2) {
+            throw new IllegalArgumentException("Dots count must be at least 2");
+        }
+
+        if (xFrom > xTo) {
+            double temp = xFrom;
+            xFrom = xTo;
+            xTo = temp;
+        }
+
+        double step = (xTo - xFrom) / (count - 1);
+
+        for (int i = 0; i < count; i++) {
+            double x = xFrom + i * step;
+            addNode(x, source.apply(x));
+        }
     }
 
     @Override
@@ -131,29 +112,26 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
     @Override
     public int indexOfX(double x) {
         Node current = head;
-        int index = 0;
-        do {
+        for (int i = 0; i < count; i++) {
             if (current.x == x) {
-                return index;
+                return i;
             }
-            index++;
             current = current.next;
-        } while (current != head);
+        }
         return -1;
     }
 
     @Override
     public int indexOfY(double y) {
         Node current = head;
-        int index = 0;
-        do {
+        for (int i = 0; i < count; i++) {
             if (current.y == y) {
-                return index;
+                return i;
             }
-            index++;
             current = current.next;
-        } while (current != head);
+        }
         return -1;
+
     }
 
     @Override
@@ -168,16 +146,23 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
 
     @Override
     protected int floorIndexOfX(double x) {
-        Node current = head;
-        int index = 0;
         if (x < leftBound()) {
             return 0;
         }
-        while (current.next != head && current.next.x <= x) {
-            current = current.next;
-            index++;
+
+        if (x > rightBound()) {
+            return getCount() - 1;
         }
-        return index;
+
+        Node current = head;
+        for (int i = 0; i < count; i++) {
+            if (current.x > x) {
+                return i - 1;
+            }
+            current = current.next;
+        }
+
+        return getCount() - 1;
     }
 
     @Override
@@ -187,11 +172,73 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
 
     @Override
     protected double extrapolateRight(double x) {
-        Node last = head.prev;
-        return extrapolate(x, last.prev.x, last.x, last.prev.y, last.y);
+        return extrapolate(x, head.prev.prev.x, head.prev.x, head.prev.prev.y, head.prev.y);
     }
 
     private double extrapolate(double x, double leftX, double rightX, double leftY, double rightY) {
         return leftY + (x - leftX) * (rightY - leftY) / (rightX - leftX);
     }
+
+    @Override
+    public void insert(double x, double y) {
+        if (head == null){ //если список пустой просто добавляем новый узел
+            addNode(x,y);
+            count++;
+            return;
+        }
+
+        Node current = head;
+        for (int i = 0; i < count; ++i){
+            if (current.x == x){ //если х уже существует обновляем у
+                current.y = y;
+                return;
+            }
+
+            if (current.x > x){ //если найдено метод для вставки
+                Node newNode = new Node(x,y);
+                if (current == head){ //если
+                    newNode.next = head; //новый узел будет ссылаться на голову
+                    newNode.prev = head.prev;
+                    head.prev.next = newNode; //обновляем предыдущий последний узел чтобы он указывал на новый узел
+                    head.prev = newNode; //обновляем голову
+                    head = newNode; //новый узел становится головой
+                } else { //вставка между узлами
+                    newNode.prev = current.prev;
+                    newNode.next = current;
+                    current.prev.next = newNode; //предыдущий узел относительно current указывает на новый узел
+                    current.prev = newNode; //обновляем prev чтобы он указывал на новый узел
+                }
+                count++;
+                return;
+            }
+            current = current.next;
+        }
+
+        addNode(x, y); //если x больше всех значений, добавляем в конец
+        count++;
+    }
+
+    @Override
+    public void remove(int index){
+        checkIndex(index);
+
+        Node current = head;
+
+        for (int i = 0; i < index; ++i){
+            current = current.next;
+        }
+
+        current.prev.next = current.next;
+        current.next.prev = current.prev;
+
+        if (current == head) {
+            head = current.next;
+        }
+
+        current.x = 0;
+        current.y = 0;
+        count--;
+
+    }
+
 }

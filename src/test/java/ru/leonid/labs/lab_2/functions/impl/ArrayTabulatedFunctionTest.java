@@ -1,9 +1,9 @@
 package ru.leonid.labs.lab_2.functions.impl;
 
+import org.junit.Test;
 import ru.leonid.labs.lab_2.functions.api.MathFunction;
 
 import static org.junit.Assert.assertEquals;
-import org.junit.Test;
 
 public class ArrayTabulatedFunctionTest {
 
@@ -112,4 +112,44 @@ public class ArrayTabulatedFunctionTest {
         assertEquals(0, func.floorIndexOfX(0.5));
         assertEquals(2, func.floorIndexOfX(3.5));
     }
+
+    @Test
+    public void testInsert() {
+        double[] xValues = {1, 3, 5};
+        double[] yValues = {2, 6, 10};
+        ArrayTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
+
+        function.insert(4, 8);
+        assertEquals(4, function.getX(2), 0.001);
+        assertEquals(8, function.getY(2), 0.001);
+
+        function.insert(0, 0);
+        assertEquals(0, function.getX(0), 0.001);
+        assertEquals(0, function.getY(0), 0.001);
+
+        function.insert(6, 12);
+        assertEquals(6, function.getX(function.getCount() - 1), 0.001);
+        assertEquals(12, function.getY(function.getCount() - 1), 0.001);
+
+        function.insert(4, 20);
+        assertEquals(20, function.getY(3), 0.001);
+    }
+
+    @Test
+    public void testRemove() {
+        ArrayTabulatedFunction function = new ArrayTabulatedFunction(new double[]{1.0, 2.0, 3.0}, new double[]{2.0, 4.0, 6.0});
+
+        function.remove(1);
+        assertEquals(2, function.getCount());
+        assertEquals(1.0, function.getX(0), 0.001);
+        assertEquals(6.0, function.getY(1), 0.001);
+
+        function.remove(0);
+        assertEquals(1, function.getCount());
+        assertEquals(6.0, function.getY(0), 0.001);
+
+        function.remove(0);
+        assertEquals(0, function.getCount());
+    }
+
 }
