@@ -228,6 +228,10 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
     public void remove(int index){
         checkIndex(index);
 
+        if(count == 0){
+            throw new IllegalArgumentException("Cannot remove zero list");
+        }
+
         Node current = head;
 
         for (int i = 0; i < index; ++i){

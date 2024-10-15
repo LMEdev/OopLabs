@@ -39,7 +39,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
         super(count);
 
         if (count < 2) {
-            throw new IllegalArgumentException("Count must be at least 2");
+            throw new IllegalArgumentException("Number of points must be at least 2");
         }
 
         if (xFrom > xTo) {
@@ -144,11 +144,17 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
 
     @Override
     protected double extrapolateLeft(double x) {
+        if (count == 1) {
+            return yValues[0];
+        }
         return extrapolate(x, xValues[0], xValues[1], yValues[0], yValues[1]);
     }
 
     @Override
     protected double extrapolateRight(double x) {
+        if (count == 1) {
+            return yValues[0];
+        }
         return extrapolate(x, xValues[getCount() - 2], xValues[getCount() - 1], yValues[getCount() - 2], yValues[getCount() - 1]);
     }
 
