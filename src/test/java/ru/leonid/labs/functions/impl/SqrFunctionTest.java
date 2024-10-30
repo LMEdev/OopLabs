@@ -3,7 +3,6 @@ package ru.leonid.labs.functions.impl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.leonid.labs.functions.api.MathFunction;
-import ru.leonid.labs.functions.impl.SqrFunction;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
