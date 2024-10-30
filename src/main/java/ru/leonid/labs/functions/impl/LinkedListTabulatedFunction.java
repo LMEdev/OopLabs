@@ -7,10 +7,13 @@ import ru.leonid.labs.functions.api.MathFunction;
 import ru.leonid.labs.functions.api.Point;
 import ru.leonid.labs.functions.api.Removable;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Insertable, Removable {
+public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Insertable, Removable, Serializable {
+    private static final long serialVersionUID = 1716938283610569347L;
+
     private static class Node {
         public Node prev;
         public Node next;

@@ -3,7 +3,10 @@ package ru.leonid.labs.functions.api;
 import ru.leonid.labs.exceptions.ArrayIsNotSortedException;
 import ru.leonid.labs.exceptions.DifferentLengthOfArraysException;
 
-public abstract class AbstractTabulatedFunction implements TabulatedFunction {
+import java.io.Serializable;
+
+public abstract class AbstractTabulatedFunction implements TabulatedFunction, Serializable {
+    private static final Long serialVersionUID = 4984723532365537189L;
 
     protected int count;
 
@@ -58,6 +61,21 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
 
     protected double interpolate(double x, double leftX, double rightX, double leftY, double rightY) {
         return leftY + (rightY - leftY) * (x - leftX) / (rightX - leftX);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(getClass().getSimpleName())
+                .append(" size = ")
+                .append(this.count)
+                .append("\n");
+
+        for (Point point : this) {
+            stringBuilder.append(String.format("[%s; %s]%n", point.x, point.y));
+        }
+
+        return stringBuilder.toString();
     }
 }
 
