@@ -1,9 +1,14 @@
 package ru.leonid.labs.functions.impl;
 
+import ru.leonid.labs.exceptions.InterpolationException;
 import ru.leonid.labs.functions.api.AbstractTabulatedFunction;
 import ru.leonid.labs.functions.api.Insertable;
 import ru.leonid.labs.functions.api.MathFunction;
+import ru.leonid.labs.functions.api.Point;
 import ru.leonid.labs.functions.api.Removable;
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Insertable, Removable {
     private static class Node {
@@ -56,9 +61,11 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
     public LinkedListTabulatedFunction(double[] xValues, double[] yValues) {
         super(xValues.length);
-        if (xValues.length != yValues.length) {
-            throw new IllegalArgumentException("xValues.length != yValues.length");
-        }
+
+        AbstractTabulatedFunction.checkLengthIsTheSame(xValues, yValues);
+        AbstractTabulatedFunction.checkSorted(xValues);
+
+
         if (xValues.length < 2) {
             throw new IllegalArgumentException("Array length must be at least 2");
         }
@@ -92,6 +99,9 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
     @Override
     protected double interpolate(double x, int floorIndex) {
         Node floorNode = getNode(floorIndex);
+        if (x < floorNode.x || x > floorNode.next.x) {
+            throw new InterpolationException("Out of interpolation range");
+        }
         return interpolate(x, floorNode.x, floorNode.next.x, floorNode.y, floorNode.next.y);
     }
 
@@ -251,4 +261,30 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
     }
 
+
+    @Override
+    public Iterator<Point> iterator() {
+        return new Iterator<Point>() {
+            private Node currentNode = head;
+            private int currentIndex = 0;
+
+            @Override
+            public boolean hasNext() {
+                return currentIndex < count;
+            }
+
+            @Override
+            public Point next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException("Нет больше элементов для итерации");
+                }
+
+                Point currentPoint = new Point(currentNode.x, currentNode.y);
+                currentNode = currentNode.next;
+                currentIndex++;
+
+                return currentPoint;
+            }
+        };
+    }
 }

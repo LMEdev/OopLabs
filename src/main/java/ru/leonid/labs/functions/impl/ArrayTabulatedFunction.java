@@ -1,11 +1,15 @@
 package ru.leonid.labs.functions.impl;
 
+import ru.leonid.labs.exceptions.InterpolationException;
 import ru.leonid.labs.functions.api.AbstractTabulatedFunction;
 import ru.leonid.labs.functions.api.Insertable;
 import ru.leonid.labs.functions.api.MathFunction;
+import ru.leonid.labs.functions.api.Point;
 import ru.leonid.labs.functions.api.Removable;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Insertable, Removable {
     private double[] xValues;
@@ -15,9 +19,8 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
     public ArrayTabulatedFunction(double[] xValues, double[] yValues) {
         super(xValues.length);
 
-        if (xValues.length != yValues.length) {
-            throw new IllegalArgumentException("xValues.length != yValues.length");
-        }
+        AbstractTabulatedFunction.checkLengthIsTheSame(xValues, yValues);
+        AbstractTabulatedFunction.checkSorted(xValues);
 
         if (xValues.length < 2) {
             throw new IllegalArgumentException("Array length must be at least 2");
@@ -63,6 +66,9 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
 
     @Override
     protected double interpolate(double x, int floorIndex) {
+        if (x < xValues[floorIndex] || x > xValues[floorIndex + 1]) {
+            throw new InterpolationException("Out of interpolation bounds");
+        }
         return interpolate(x, xValues[floorIndex], xValues[floorIndex + 1], yValues[floorIndex], yValues[floorIndex + 1]);
     }
 
@@ -129,7 +135,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
     @Override
     protected int floorIndexOfX(double x) {
         if (x < leftBound()) {
-            return 0;
+            throw new IllegalArgumentException("Less than left left bound");
         }
         if (x > rightBound()) {
             return getCount() - 1;
@@ -218,6 +224,30 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
         count--;
         xValues[count] = 0;
         yValues[count] = 0;
+    }
+
+    @Override
+    public Iterator<Point> iterator() {
+        return new Iterator<Point>() {
+            private int index = 0;
+
+            @Override
+            public boolean hasNext() {
+                return index < count;
+            }
+
+            @Override
+            public Point next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException("Нет больше элементов для итерации");
+                }
+
+                Point currentPoint = new Point(xValues[index], yValues[index]);
+                index++;
+
+                return currentPoint;
+            }
+        };
     }
 
 }

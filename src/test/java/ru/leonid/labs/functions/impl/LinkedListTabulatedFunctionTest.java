@@ -1,15 +1,91 @@
-package ru.leonid.labs.lab_2.functions.impl;
+package ru.leonid.labs.functions.impl;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import ru.leonid.labs.exceptions.ArrayIsNotSortedException;
+import ru.leonid.labs.exceptions.DifferentLengthOfArraysException;
+import ru.leonid.labs.exceptions.InterpolationException;
 import ru.leonid.labs.functions.api.MathFunction;
+import ru.leonid.labs.functions.api.Point;
 import ru.leonid.labs.functions.impl.ArrayTabulatedFunction;
 import ru.leonid.labs.functions.impl.LinkedListTabulatedFunction;
 
+import java.util.Iterator;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayName("Тесты для LinkedListTabulatedFunction")
 class LinkedListTabulatedFunctionTest {
+
+    @Test
+    void testIteratorUsingWhileLoop() {
+        double[] xCoordinates = {1.0, 2.0, 4.5, 10.0};
+        double[] yCoordinates = {0.0, 3.0, 2.0, 1.1};
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(xCoordinates, yCoordinates);
+
+        Iterator<Point> iterator = function.iterator();
+        int index = 0;
+
+        while (iterator.hasNext()) {
+            Point point = iterator.next();
+            assertEquals(function.getX(index), point.x, 1e-9);
+            assertEquals(function.getY(index), point.y, 1e-9);
+            index++;
+        }
+
+        assertEquals(function.getCount(), index, "Количество точек должно совпадать");
+    }
+
+    @Test
+    void testIteratorUsingForEachLoop() {
+        double[] xCoordinates = {1.0, 2.0, 4.5, 10.0};
+        double[] yCoordinates = {0.0, 3.0, 2.0, 1.1};
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(xCoordinates, yCoordinates);
+
+        int index = 0;
+        for (Point point : function) {
+            assertEquals(function.getX(index), point.x, 1e-9);
+            assertEquals(function.getY(index), point.y, 1e-9);
+            index++;
+        }
+
+        assertEquals(function.getCount(), index, "Количество точек должно совпадать");
+    }
+
+    @Test
+    void shouldThrowExceptionWhenArrayIsUnsortedInConstructor() {
+        double[] xData = {8.0, 1.5, 3.5, 0.5};
+        double[] yData = {0.5, 2.2, 1.8, 1.0};
+
+        assertThrows(ArrayIsNotSortedException.class, () -> new LinkedListTabulatedFunction(xData, yData));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenArraysHaveDifferentLengthsInConstructor() {
+        double[] xData = {2.0, 4.0, 6.0};
+        double[] yData = {1.0, 3.5, 4.5, 5.0};
+
+        assertThrows(DifferentLengthOfArraysException.class, () -> new LinkedListTabulatedFunction(xData, yData));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenArrayHasSingleElementInConstructor() {
+        double[] xData = {5.0};
+        double[] yData = {10.0};
+
+        assertThrows(IllegalArgumentException.class, () -> new LinkedListTabulatedFunction(xData, yData));
+    }
+
+    @Test
+    void shouldThrowInterpolationExceptionWhenXOutOfRange() {
+        double[] xData = {1.0, 2.5, 3.0};
+        double[] yData = {3.0, 4.0, 5.0};
+
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(xData, yData);
+        assertThrows(InterpolationException.class, () -> function.interpolate(3.8, 1));
+    }
+
 
     @Test
     void testConstructorWithArrays() {

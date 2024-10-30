@@ -1,4 +1,4 @@
-package ru.leonid.labs.lab_2.functions.impl;
+package ru.leonid.labs.functions.impl;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,5 +1,8 @@
 package ru.leonid.labs.functions.api;
 
+import ru.leonid.labs.exceptions.ArrayIsNotSortedException;
+import ru.leonid.labs.exceptions.DifferentLengthOfArraysException;
+
 public abstract class AbstractTabulatedFunction implements TabulatedFunction {
 
     protected int count;
@@ -27,7 +30,21 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
 
     protected void checkIndex(int index) {
         if (index < 0 || index >= getCount()) {
-            throw new IndexOutOfBoundsException("Index out of bounds: " + index);
+            throw new IllegalArgumentException("Index out of bounds: " + index);
+        }
+    }
+
+    public static void checkLengthIsTheSame(double[] xValues, double[] yValues) {
+        if (xValues.length != yValues.length) {
+            throw new DifferentLengthOfArraysException("Arrays have different lengths");
+        }
+
+    }
+    public static void checkSorted(double[] xValues) {
+        for (int i = 1; i < xValues.length; i++) {
+            if (xValues[i - 1] >= xValues[i]) {
+                throw new ArrayIsNotSortedException("Array xValues is not sorted in ascending order");
+            }
         }
     }
 

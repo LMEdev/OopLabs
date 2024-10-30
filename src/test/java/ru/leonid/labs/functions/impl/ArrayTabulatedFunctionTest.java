@@ -1,15 +1,96 @@
-package ru.leonid.labs.lab_2.functions.impl;
+package ru.leonid.labs.functions.impl;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import ru.leonid.labs.exceptions.ArrayIsNotSortedException;
+import ru.leonid.labs.exceptions.DifferentLengthOfArraysException;
+import ru.leonid.labs.exceptions.InterpolationException;
 import ru.leonid.labs.functions.api.MathFunction;
-import ru.leonid.labs.functions.impl.ArrayTabulatedFunction;
+import ru.leonid.labs.functions.api.Point;
+
+import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayName("Тесты для ArrayTabulatedFunction")
 class ArrayTabulatedFunctionTest {
+    @Test
+    void testIteratorUsingWhileLoop() {
+        double[] xValues = {1.0, 2.0, 4.5, 10.0};
+        double[] yValues = {0.0, 3.0, 2.0, 1.1};
+        ArrayTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
+
+        Iterator<Point> iterator = function.iterator();
+        int index = 0;
+
+        while (iterator.hasNext()) {
+            Point point = iterator.next();
+            assertEquals(function.getX(index), point.x, 1e-9);
+            assertEquals(function.getY(index), point.y, 1e-9);
+            index++;
+        }
+
+        assertEquals(function.getCount(), index, "Количество точек должно совпадать");
+    }
+
+    @Test
+    void testIteratorUsingForEachLoop() {
+        double[] xValues = {1.0, 2.0, 4.5, 10.0};
+        double[] yValues = {0.0, 3.0, 2.0, 1.1};
+        ArrayTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
+
+        int index = 0;
+        for (Point point : function) {
+            assertEquals(function.getX(index), point.x, 1e-9);
+            assertEquals(function.getY(index), point.y, 1e-9);
+            index++;
+        }
+
+        assertEquals(function.getCount(), index, "Количество точек должно совпадать");
+    }
+
+    @Test
+    void shouldThrowInterpolationExceptionWhenOutOfBounds() {
+        double[] xData = {1.0, 2.5, 4.0};
+        double[] yData = {3.0, 7.0, 9.0};
+
+        ArrayTabulatedFunction function = new ArrayTabulatedFunction(xData, yData);
+        assertThrows(InterpolationException.class, () -> function.interpolate(5.0, 1));
+    }
+
+    @Test
+    void shouldThrowExceptionForMismatchedArrayLengthsInConstructor() {
+        double[] xData = {1.5, 2.5, 3.5};
+        double[] yData = {2.5, 5.0};
+
+        assertThrows(DifferentLengthOfArraysException.class, () -> new ArrayTabulatedFunction(xData, yData));
+    }
+
+    @Test
+    void shouldThrowExceptionForUnorderedArrayInConstructor() {
+        double[] xData = {2.0, 4.5, 3.5};
+        double[] yData = {5.0, 10.0, 7.0};
+
+        assertThrows(ArrayIsNotSortedException.class, () -> new ArrayTabulatedFunction(xData, yData));
+    }
+
+    @Test
+    void shouldThrowExceptionForDuplicateXValuesInConstructor() {
+        double[] xData = {1.0, 4.0, 1.0};
+        double[] yData = {3.0, 8.0, 6.0};
+
+        assertThrows(ArrayIsNotSortedException.class, () -> new ArrayTabulatedFunction(xData, yData));
+    }
+
+    @Test
+    void shouldThrowExceptionForArraySizeLessThanTwoInConstructor() {
+        double[] xData = {2.0};
+        double[] yData = {3.5};
+
+        assertThrows(IllegalArgumentException.class, () -> new ArrayTabulatedFunction(xData, yData));
+    }
+
 
     @Test
     void testConstructorWithArrays() {
@@ -119,6 +200,4 @@ class ArrayTabulatedFunctionTest {
         function.remove(0);
         assertEquals(0, function.getCount());
     }
-
-
 }
