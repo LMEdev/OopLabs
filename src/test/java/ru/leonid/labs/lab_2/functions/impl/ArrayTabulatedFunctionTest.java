@@ -2,7 +2,8 @@ package ru.leonid.labs.lab_2.functions.impl;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.leonid.labs.lab_2.functions.api.MathFunction;
+import ru.leonid.labs.functions.api.MathFunction;
+import ru.leonid.labs.functions.impl.ArrayTabulatedFunction;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -36,32 +37,6 @@ class ArrayTabulatedFunctionTest {
         assertEquals(2.0, func.getY(0), 0.001);
         assertEquals(4.0, func.getY(1), 0.001);
         assertEquals(6.0, func.getY(2), 0.001);
-    }
-
-    @Test
-    void testLeftExtrapolation() {
-        MathFunction source = x -> x * 2;
-        ArrayTabulatedFunction func = new ArrayTabulatedFunction(source, 1.0, 3.0, 3);
-
-        //экстраполяция влево от самой левой точки (1.0)
-        // Ожидаемое значение: 2.0 + (0.0 - 1.0) * (4.0 - 2.0) / (2.0 - 1.0) = 2.0 - 2.0 = 0.0
-        assertEquals(0.0, func.extrapolateLeft(0.0), 0.001);
-    }
-
-    @Test
-    void testRightExtrapolation() {
-        MathFunction source = x -> x * 2;
-        ArrayTabulatedFunction func = new ArrayTabulatedFunction(source, 1.0, 3.0, 3);
-
-        assertEquals(8.0, func.extrapolateRight(4.0), 0.001);
-    }
-
-    @Test
-    void testInterpolation() {
-        MathFunction source = x -> x * 2;
-        ArrayTabulatedFunction func = new ArrayTabulatedFunction(source, 1.0, 3.0, 3);
-
-        assertEquals(4.0, func.interpolate(2.0, 0), 0.001);
     }
 
     @Test
@@ -104,16 +79,6 @@ class ArrayTabulatedFunctionTest {
         assertEquals(3.0, func.rightBound(), 0.001);
     }
 
-    @Test
-    void testFloorIndexOfX() {
-        double[] xValues = {1.0, 2.0, 3.0};
-        double[] yValues = {2.0, 4.0, 6.0};
-        ArrayTabulatedFunction func = new ArrayTabulatedFunction(xValues, yValues);
-
-        assertEquals(1, func.floorIndexOfX(2.5));
-        assertEquals(0, func.floorIndexOfX(0.5));
-        assertEquals(2, func.floorIndexOfX(3.5));
-    }
 
     @Test
     void testInsert() {

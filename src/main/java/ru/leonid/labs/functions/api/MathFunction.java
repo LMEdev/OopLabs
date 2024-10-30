@@ -1,6 +1,6 @@
-package ru.leonid.labs.lab_2.functions.api;
+package ru.leonid.labs.functions.api;
 
-import ru.leonid.labs.lab_2.functions.impl.CompositeFunction;
+import ru.leonid.labs.functions.impl.CompositeFunction;
 
 public interface MathFunction {
     double apply(double x);

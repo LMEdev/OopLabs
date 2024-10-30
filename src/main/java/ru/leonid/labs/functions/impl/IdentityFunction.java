@@ -1,6 +1,6 @@
-package ru.leonid.labs.lab_2.functions.impl;
+package ru.leonid.labs.functions.impl;
 
-import ru.leonid.labs.lab_2.functions.api.MathFunction;
+import ru.leonid.labs.functions.api.MathFunction;
 
 
 public class IdentityFunction implements MathFunction {

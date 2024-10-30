@@ -1,9 +1,9 @@
-package ru.leonid.labs.lab_2.functions.impl;
+package ru.leonid.labs.functions.impl;
 
-import ru.leonid.labs.lab_2.functions.api.AbstractTabulatedFunction;
-import ru.leonid.labs.lab_2.functions.api.Insertable;
-import ru.leonid.labs.lab_2.functions.api.MathFunction;
-import ru.leonid.labs.lab_2.functions.api.Removable;
+import ru.leonid.labs.functions.api.AbstractTabulatedFunction;
+import ru.leonid.labs.functions.api.Insertable;
+import ru.leonid.labs.functions.api.MathFunction;
+import ru.leonid.labs.functions.api.Removable;
 
 public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Insertable, Removable {
     private static class Node {
