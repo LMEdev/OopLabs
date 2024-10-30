@@ -6,6 +6,7 @@ import ru.leonid.labs.functions.api.MathFunction;
 import ru.leonid.labs.functions.impl.ArrayTabulatedFunction;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayName("Тесты для ArrayTabulatedFunction")
 class ArrayTabulatedFunctionTest {
@@ -118,5 +119,6 @@ class ArrayTabulatedFunctionTest {
         function.remove(0);
         assertEquals(0, function.getCount());
     }
+
 
 }
