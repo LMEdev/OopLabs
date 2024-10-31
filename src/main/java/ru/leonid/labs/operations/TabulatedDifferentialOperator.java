@@ -1,5 +1,6 @@
 package ru.leonid.labs.operations;
 
+import ru.leonid.labs.concurrent.SynchronizedTabulatedFunction;
 import ru.leonid.labs.functions.api.Point;
 import ru.leonid.labs.functions.api.TabulatedFunction;
 import ru.leonid.labs.functions.factory.ArrayTabulatedFunctionFactory;
@@ -47,5 +48,16 @@ public class TabulatedDifferentialOperator implements DifferentialOperator<Tabul
     @Override
     public double apply(double x) {
         throw new UnsupportedOperationException();
+    }
+
+
+    public TabulatedFunction deriveSynchronously(TabulatedFunction function) {
+        if (function instanceof SynchronizedTabulatedFunction) {
+            return derive(function);
+        }
+
+        SynchronizedTabulatedFunction synchronizedFunction = new SynchronizedTabulatedFunction(function);
+
+        return synchronizedFunction.doSynchronously(this::derive);
     }
 }

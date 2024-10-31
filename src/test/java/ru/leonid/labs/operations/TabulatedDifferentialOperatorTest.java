@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 @DisplayName("Тесты для DifferentialOperator")
-class DifferentialOperatorTests {
+class TabulatedDifferentialOperatorTest {
 
     @Test
     void testDefaultConstructorUsesArrayFactory() {
@@ -68,5 +68,35 @@ class DifferentialOperatorTests {
             assertEquals(xValues[i], function.getX(i));
             assertEquals(yValues[i], function.getY(i), 3);
         }
+    }
+
+    @Test
+    void testDeriveSynchronouslyForLinearFunction() {
+        double[] xValues = {1.0, 2.0, 3.0, 4.0};
+        double[] yValues = {2.0, 4.0, 6.0, 8.0};
+
+        TabulatedFunction linearFunction = new ArrayTabulatedFunctionFactory().create(xValues, yValues);
+        TabulatedDifferentialOperator differentialOperator = new TabulatedDifferentialOperator(new ArrayTabulatedFunctionFactory());
+
+        TabulatedFunction derivedFunction = differentialOperator.deriveSynchronously(linearFunction);
+
+        for (int i = 0; i < derivedFunction.getCount(); i++) {
+            assertEquals(2.0, derivedFunction.getY(i), 1e-9);
+        }
+    }
+
+    @Test
+    void testDeriveSynchronouslyForNonLinearFunction() {
+        double[] xValues = {1.0, 2.0, 3.0, 4.0};
+        double[] yValues = {1.0, 4.0, 9.0, 16.0};
+
+        TabulatedFunction quadraticFunction = new ArrayTabulatedFunctionFactory().create(xValues, yValues);
+        TabulatedDifferentialOperator differentialOperator = new TabulatedDifferentialOperator(new ArrayTabulatedFunctionFactory());
+
+        TabulatedFunction derivedFunction = differentialOperator.deriveSynchronously(quadraticFunction);
+
+        assertEquals(3.0, derivedFunction.getY(0), 1e-5);
+        assertEquals(5.0, derivedFunction.getY(1), 1e-5);
+        assertEquals(7.0, derivedFunction.getY(2), 1e-5);
     }
 }
