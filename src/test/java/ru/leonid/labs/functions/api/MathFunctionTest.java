@@ -10,7 +10,7 @@ import ru.leonid.labs.functions.impl.SqrFunction;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DisplayName("Тесты для MathFunction")
+@DisplayName("Тесты для MathFunctionEntity")
 class MathFunctionTest {
 
     @Test
