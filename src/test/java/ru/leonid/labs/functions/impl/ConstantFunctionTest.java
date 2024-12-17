@@ -2,10 +2,10 @@ package ru.leonid.labs.functions.impl;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.leonid.labs.functions.api.MathFunction;
-import ru.leonid.labs.functions.impl.ConstantFunction;
-import ru.leonid.labs.functions.impl.UnitFunction;
-import ru.leonid.labs.functions.impl.ZeroFunction;
+import ru.leonid.labs.function.api.MathFunction;
+import ru.leonid.labs.function.impl.ConstantFunction;
+import ru.leonid.labs.function.impl.UnitFunction;
+import ru.leonid.labs.function.impl.ZeroFunction;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

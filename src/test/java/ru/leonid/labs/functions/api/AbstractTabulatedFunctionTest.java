@@ -4,8 +4,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.leonid.labs.exceptions.ArrayIsNotSortedException;
 import ru.leonid.labs.exceptions.DifferentLengthOfArraysException;
-import ru.leonid.labs.functions.impl.ArrayTabulatedFunction;
-import ru.leonid.labs.functions.impl.LinkedListTabulatedFunction;
+import ru.leonid.labs.function.api.AbstractTabulatedFunction;
+import ru.leonid.labs.function.impl.ArrayTabulatedFunction;
+import ru.leonid.labs.function.impl.LinkedListTabulatedFunction;
 
 import static org.junit.jupiter.api.Assertions.*;
 

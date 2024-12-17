@@ -2,11 +2,12 @@ package ru.leonid.labs.operations;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.leonid.labs.functions.api.TabulatedFunction;
-import ru.leonid.labs.functions.factory.ArrayTabulatedFunctionFactory;
-import ru.leonid.labs.functions.factory.LinkedListTabulatedFunctionFactory;
-import ru.leonid.labs.functions.impl.ArrayTabulatedFunction;
-import ru.leonid.labs.functions.impl.LinkedListTabulatedFunction;
+import ru.leonid.labs.function.api.TabulatedFunction;
+import ru.leonid.labs.function.factory.ArrayTabulatedFunctionFactory;
+import ru.leonid.labs.function.factory.LinkedListTabulatedFunctionFactory;
+import ru.leonid.labs.function.impl.ArrayTabulatedFunction;
+import ru.leonid.labs.function.impl.LinkedListTabulatedFunction;
+import ru.leonid.labs.operation.TabulatedDifferentialOperator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;

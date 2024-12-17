@@ -1,6 +1,6 @@
 package ru.leonid.labs.concurrent;
 
-import ru.leonid.labs.functions.api.TabulatedFunction;
+import ru.leonid.labs.function.api.TabulatedFunction;
 
 public class WriteTask implements Runnable{
     private final TabulatedFunction function;

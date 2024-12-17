@@ -2,8 +2,8 @@ package ru.leonid.labs.functions.impl;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.leonid.labs.functions.api.MathFunction;
-import ru.leonid.labs.functions.impl.SimpleIterationMethod;
+import ru.leonid.labs.function.api.MathFunction;
+import ru.leonid.labs.function.impl.SimpleIterationMethod;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

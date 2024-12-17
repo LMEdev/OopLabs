@@ -1,8 +1,8 @@
 package ru.leonid.labs.concurrent;
 
-import ru.leonid.labs.functions.api.TabulatedFunction;
-import ru.leonid.labs.functions.impl.LinkedListTabulatedFunction;
-import ru.leonid.labs.functions.impl.UnitFunction;
+import ru.leonid.labs.function.api.TabulatedFunction;
+import ru.leonid.labs.function.impl.LinkedListTabulatedFunction;
+import ru.leonid.labs.function.impl.UnitFunction;
 
 import java.util.ArrayList;
 import java.util.List;

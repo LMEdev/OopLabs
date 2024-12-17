@@ -5,8 +5,9 @@ import org.junit.jupiter.api.Test;
 import ru.leonid.labs.exceptions.ArrayIsNotSortedException;
 import ru.leonid.labs.exceptions.DifferentLengthOfArraysException;
 import ru.leonid.labs.exceptions.InterpolationException;
-import ru.leonid.labs.functions.api.MathFunction;
-import ru.leonid.labs.functions.api.Point;
+import ru.leonid.labs.function.api.MathFunction;
+import ru.leonid.labs.function.api.Point;
+import ru.leonid.labs.function.impl.ArrayTabulatedFunction;
 
 import java.util.Iterator;
 

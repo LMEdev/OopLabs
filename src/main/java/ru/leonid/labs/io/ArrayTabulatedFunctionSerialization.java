@@ -1,9 +1,9 @@
 package ru.leonid.labs.io;
 
-import ru.leonid.labs.functions.api.TabulatedFunction;
-import ru.leonid.labs.functions.factory.ArrayTabulatedFunctionFactory;
-import ru.leonid.labs.functions.impl.ArrayTabulatedFunction;
-import ru.leonid.labs.operations.TabulatedDifferentialOperator;
+import ru.leonid.labs.function.api.TabulatedFunction;
+import ru.leonid.labs.function.factory.ArrayTabulatedFunctionFactory;
+import ru.leonid.labs.function.impl.ArrayTabulatedFunction;
+import ru.leonid.labs.operation.TabulatedDifferentialOperator;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

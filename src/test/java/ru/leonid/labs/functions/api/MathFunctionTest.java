@@ -3,14 +3,14 @@ package ru.leonid.labs.functions.api;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import ru.leonid.labs.functions.api.MathFunction;
-import ru.leonid.labs.functions.impl.ConstantFunction;
-import ru.leonid.labs.functions.impl.IdentityFunction;
-import ru.leonid.labs.functions.impl.SqrFunction;
+import ru.leonid.labs.function.api.MathFunction;
+import ru.leonid.labs.function.impl.ConstantFunction;
+import ru.leonid.labs.function.impl.IdentityFunction;
+import ru.leonid.labs.function.impl.SqrFunction;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DisplayName("Тесты для MathFunctionEntity")
+@DisplayName("Тесты для MathFunction")
 class MathFunctionTest {
 
     @Test

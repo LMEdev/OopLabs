@@ -1,17 +1,15 @@
 package ru.leonid.labs.mapper;
 
-
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.*;
 import ru.leonid.labs.dto.MathFunctionDTO;
-import ru.leonid.labs.entity.MathFunctionEntity;
+import ru.leonid.labs.entity.MathFunction;
+
 
 @Mapper(componentModel = "spring")
 public interface MathFunctionMapper {
 
+    @Mapping(target = "points")
+    MathFunction toEntity(MathFunctionDTO dto);
 
-    MathFunctionEntity toEntity(MathFunctionDTO dto);
-
-
-    MathFunctionDTO toDto(MathFunctionEntity entity);
+    MathFunctionDTO toDTO(MathFunction entity);
 }

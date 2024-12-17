@@ -1,8 +1,8 @@
 package ru.leonid.labs.io;
 
-import ru.leonid.labs.functions.api.Point;
-import ru.leonid.labs.functions.api.TabulatedFunction;
-import ru.leonid.labs.functions.factory.TabulatedFunctionFactory;
+import ru.leonid.labs.function.api.Point;
+import ru.leonid.labs.function.api.TabulatedFunction;
+import ru.leonid.labs.function.factory.TabulatedFunctionFactory;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

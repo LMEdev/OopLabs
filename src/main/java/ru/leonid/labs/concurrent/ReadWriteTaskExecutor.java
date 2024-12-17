@@ -1,8 +1,8 @@
 package ru.leonid.labs.concurrent;
 
-import ru.leonid.labs.functions.api.TabulatedFunction;
-import ru.leonid.labs.functions.impl.ConstantFunction;
-import ru.leonid.labs.functions.impl.LinkedListTabulatedFunction;
+import ru.leonid.labs.function.api.TabulatedFunction;
+import ru.leonid.labs.function.impl.ConstantFunction;
+import ru.leonid.labs.function.impl.LinkedListTabulatedFunction;
 
 public class ReadWriteTaskExecutor {
     public static void main(String[] args) {

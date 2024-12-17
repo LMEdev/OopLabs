@@ -1,8 +1,8 @@
 package ru.leonid.labs.concurrent;
 
-import ru.leonid.labs.functions.api.Point;
-import ru.leonid.labs.functions.api.TabulatedFunction;
-import ru.leonid.labs.operations.TabulatedFunctionOperationService;
+import ru.leonid.labs.function.api.Point;
+import ru.leonid.labs.function.api.TabulatedFunction;
+import ru.leonid.labs.operation.TabulatedFunctionOperationService;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;

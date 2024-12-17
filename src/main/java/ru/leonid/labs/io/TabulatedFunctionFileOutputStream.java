@@ -1,8 +1,8 @@
 package ru.leonid.labs.io;
 
-import ru.leonid.labs.functions.api.AbstractTabulatedFunction;
-import ru.leonid.labs.functions.impl.ArrayTabulatedFunction;
-import ru.leonid.labs.functions.impl.LinkedListTabulatedFunction;
+import ru.leonid.labs.function.api.AbstractTabulatedFunction;
+import ru.leonid.labs.function.impl.ArrayTabulatedFunction;
+import ru.leonid.labs.function.impl.LinkedListTabulatedFunction;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
